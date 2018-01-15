@@ -34,16 +34,16 @@ function Set() {
             return null;
         }
 // use symmetricDifference to find union.
-        var r1 = this.symmetricDifference(listA,listB);
+        var flag1 = this.symmetricDifference(listA,listB);
         // loop through listA
-        for(var i =0; i < r1.length; i++){
+        for(var i =0; i < flag1.length; i++){
             // create third array, with new values
-            resultList.push(r1[i]);
+            resultList.push(flag1[i]);
         }
         //loop through listB
-        var r2 = this.intersection(listA,listB);
-        for(var j = 0; j < r2.length; j++){
-            resultList.push(r2[j]);
+        var flag2 = this.intersection(listA,listB);
+        for(var j = 0; j < flag2.length; j++){
+            resultList.push(flag2[j]);
         }
 	   
 	   return resultList;
@@ -90,17 +90,17 @@ function Set() {
         }
 
 // pull the relative complement to find the symmetricDifference.
-        var r1 = this.relativeComplement(listA, listB);
+        var flag1 = this.relativeComplement(listA, listB);
 //loop through listA to create new value r1
-        for (var i = 0; i < r1.length; i++) {
-            resultList.push(r1[i]);
+        for (var i = 0; i < flag1.length; i++) {
+            resultList.push(flag1[i]);
         }
 
 // loop through listB to create new value r2
-        var r2 = this.relativeComplement(listB, listA);
+        var flag2 = this.relativeComplement(listB, listA);
 
-        for (var j = 0; j < r2.length; j++) {
-            resultList.push(r2[j]);
+        for (var j = 0; j < flag2.length; j++) {
+            resultList.push(flag2[j]);
         }
 
        
