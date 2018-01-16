@@ -9,13 +9,13 @@ function Set() {
 			return null;
 		}
 
-		for (var i = 0; i < listA.length; i++){
-			var nextValue = listA[i]; // get next value in list
+		for (var a = 0; a < listA.length; a++){
+			var nextValue = listA[a]; // get next value in list
 
 			// elements for listB
-			for (var j = 0; j < listB.length; j++){
-                if (listB[j] === nextValue) {
-                    resultList.push(listB[j]); // add an end value to array with push
+			for (var b = 0; b < listB.length; b++){
+                if (listB[b] === nextValue) {
+                    resultList.push(listB[b]); // add an end value to array with push
                     break; // exit the listB inner loop
                 }
 			}
@@ -36,14 +36,14 @@ function Set() {
 // use symmetricDifference to find union.
         var flag1 = this.symmetricDifference(listA,listB);
         // loop through listA
-        for(var i =0; i < flag1.length; i++){
+        for(var a =0; a < flag1.length; a++){
             // create third array, with new values
-            resultList.push(flag1[i]);
+            resultList.push(flag1[a]);
         }
         //loop through listB
         var flag2 = this.intersection(listA,listB);
-        for(var j = 0; j < flag2.length; j++){
-            resultList.push(flag2[j]);
+        for(var b = 0; b < flag2.length; b++){
+            resultList.push(flag2[b]);
         }
 	   
 	   return resultList;
@@ -60,18 +60,18 @@ function Set() {
             return null;
         }
 
-        for (var i = 0; i < listA.length; i++){
-            var nextValue = listA[i]; // get next value in list
+        for (var a = 0; a < listA.length; a++){
+            var nextValue = listA[a]; // get next value in list
 	var flag = false;
             // elements for listB
-            for (var j = 0; j < listB.length; j++){
-                if (listB[j] === nextValue) {
+            for (var b = 0; b < listB.length; b++){
+                if (listB[b] === nextValue) {
                     flag = true;// add an end value to array with push
                     break; // exit the listB inner loop
                 }
             }
             if(!flag){
-                resultList.push(listA[i]); // add an end value to array with push
+                resultList.push(listA[a]); // add an end value to array with push
 			}
         }
 
@@ -92,15 +92,15 @@ function Set() {
 // pull the relative complement to find the symmetricDifference.
         var flag1 = this.relativeComplement(listA, listB);
 //loop through listA to create new value r1
-        for (var i = 0; i < flag1.length; i++) {
-            resultList.push(flag1[i]);
+        for (var a = 0; a < flag1.length; a++) {
+            resultList.push(flag1[a]);
         }
 
 // loop through listB to create new value r2
         var flag2 = this.relativeComplement(listB, listA);
 
-        for (var j = 0; j < flag2.length; j++) {
-            resultList.push(flag2[j]);
+        for (var b = 0; b < flag2.length; b++) {
+            resultList.push(flag2[b]);
         }
 
        
