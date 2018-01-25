@@ -19,7 +19,7 @@ import {Contact} from '../contacts.model';
       'Bro Barzee',
       'barzeer@byui.edu',
       '208-496-3768',
-      'https:/web.byui.edu/Directory/Employee/barzeer.jpb',
+      "https:/web.byui.edu/Directory/Employee/barzeer.jpg",
       null)
   ];
 
