@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
 
 import { AppComponent } from './app.component';
@@ -16,6 +17,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { MessageItemComponent } from './messages/message-item/message-item.component';
 import { MessageListComponent } from './messages/message-list/message-list.component';
 import { MessageEditComponent } from './messages/message-edit/message-edit.component';
+import { DropdownDirective} from "./shared/dropdown.directive";
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import { MessageEditComponent } from './messages/message-edit/message-edit.compo
     MessageItemComponent,
     MessageListComponent,
     MessageEditComponent,
+    DropdownDirective
     ],
   imports: [
     BrowserModule
