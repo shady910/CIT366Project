@@ -5,7 +5,7 @@ import { MOCKCONTACTS} from "./MOCKCONTACTS";
 @Injectable()
 export class ContactService {
   contacts: Contact[] = [];
-
+  @Output() contactSelectedEvent: EventEmitter<Contact> = new EventEmitter<Contact>();
   constructor() {
     this.contacts = MOCKCONTACTS;
   }
