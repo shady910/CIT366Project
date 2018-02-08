@@ -3,6 +3,7 @@ import {Contact} from './contacts.model';
 export const MOCKCONTACTS: Contact[] = [
   // individual contacts
   // index 0
+  // IMAGES WON"T DISPLAY FOR SOME REASON
   {
     id: '1',
     name: 'Rex Barzee',
