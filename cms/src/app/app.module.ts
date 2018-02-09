@@ -22,6 +22,8 @@ import {FormsModule} from "@angular/forms";
 import { ContactService} from "./contacts/contact.service";
 import { MessagesService} from "./messages/messages.service";
 import { DocumentsService} from "./documents/documents.service";
+import {AppRoutingModule} from "./app-routing.module";
+import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 
 @NgModule({
 
@@ -42,11 +44,13 @@ import { DocumentsService} from "./documents/documents.service";
     MessageItemComponent,
     MessageListComponent,
     MessageEditComponent,
-    DropdownDirective
+    DropdownDirective,
+    DocumentEditComponent
     ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [ContactService, MessagesService, DocumentsService],
   bootstrap: [AppComponent]

@@ -136,12 +136,12 @@ export const MOCKDOCUMENTS: any[] = [
   },
   {
     id: '47',
-    name: 'CIT 236 - Web Development',
+    name: 'CIT 336 - Web Development',
     url: 'https://content.byui.edu/file/b7c3e5ed-6947-497f-9d32-4e5b6b397cac/1/CIT 366 course description.pdf',
   },
   {
     id: '48',
-    name: 'CIT 340 - Networking II',
+    name: 'CIT 341 - Networking II',
     url: 'https://content.byui.edu/file/b7c3e5ed-6947-497f-9d32-4e5b6b397cac/1/CIT 366 course description.pdf',
   },
 ];

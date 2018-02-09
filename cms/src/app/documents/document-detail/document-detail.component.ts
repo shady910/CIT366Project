@@ -1,4 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import {DocumentsService} from "../documents.service";
+import { Document} from "../document.model";
+import { ActivatedRoute, Params, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-document-detail',
@@ -6,10 +10,18 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./document-detail.component.css']
 })
 export class DocumentDetailComponent implements OnInit {
-@Input() document: Document;
-  constructor() { }
+  document: Document;
+
+  constructor(private documentsService: DocumentsService,
+              private route: ActivatedRoute,
+              private router: Router) {
+
+  }
 
   ngOnInit() {
+    this.route.params.subscribe((params: Params) => {
+      this.document = this.documentsService.getDocument(params['id']);
+    });
   }
 
 }
