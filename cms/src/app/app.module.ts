@@ -25,6 +25,7 @@ import { DocumentsService} from "./documents/documents.service";
 import {AppRoutingModule} from "./app-routing.module";
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import {WindRefService} from "./win-ref.service";
+import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 
 @NgModule({
 
@@ -46,7 +47,8 @@ import {WindRefService} from "./win-ref.service";
     MessageListComponent,
     MessageEditComponent,
     DropdownDirective,
-    DocumentEditComponent
+    DocumentEditComponent,
+    ContactEditComponent
     ],
   imports: [
     BrowserModule,
