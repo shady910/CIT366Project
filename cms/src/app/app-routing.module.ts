@@ -12,11 +12,11 @@ const routes: Routes = [
   { path: 'documents', component: DocumentsComponent, children: [
       { path: 'new', component: DocumentEditComponent },
       { path: ':id', component: DocumentDetailComponent },
-      { path: ':id/edit', component: DocumentEditComponent },
-  { path: 'messages', component: MessageListComponent },
-  { path: 'contacts', component: ContactsComponent }
+      { path: ':id/edit', component: DocumentEditComponent }
+
 ]},
-  { path: 'messages', component: MessageListComponent}
+  { path: 'messages', component: MessageListComponent},
+  { path: 'contacts', component: ContactsComponent }
   ];
 @NgModule ({
   imports: [ RouterModule.forRoot(routes)],

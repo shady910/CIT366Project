@@ -24,6 +24,7 @@ import { MessagesService} from "./messages/messages.service";
 import { DocumentsService} from "./documents/documents.service";
 import {AppRoutingModule} from "./app-routing.module";
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
+import {WindRefService} from "./win-ref.service";
 
 @NgModule({
 
@@ -52,7 +53,7 @@ import { DocumentEditComponent } from './documents/document-edit/document-edit.c
     FormsModule,
     AppRoutingModule
   ],
-  providers: [ContactService, MessagesService, DocumentsService],
+  providers: [ContactService, MessagesService, DocumentsService, WindRefService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,7 +13,8 @@ function Set() {
 			var nextValue = listA[a]; // get next value in list
 
 			// elements for listB
-			for (var b = 0; b < listB.length; b++){
+			for
+            (var b = 0; b < listB.length; b++){
                 if (listB[b] === nextValue) {
                     resultList.push(listB[b]); // add an end value to array with push
                     break; // exit the listB inner loop
@@ -21,8 +22,10 @@ function Set() {
 			}
 		}
        
-	   return resultList; // close off intersection function
+	   return resultList; // close off intersection function\
+
 	}
+
     
     
     
