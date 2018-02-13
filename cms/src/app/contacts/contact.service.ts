@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter} from "@angular/core";
 import {Contact} from './contacts.model';
 import { MOCKCONTACTS} from "./MOCKCONTACTS";
-import {Document} from "../documents/document.model";
+
 
 @Injectable()
 export class ContactService {

@@ -11,8 +11,10 @@ export class DropdownDirective {
   @HostListener('click') toggleOpen() {
     this.isOpen = !this.isOpen;
   }
-    @HostListener('mouseleave') close(){
-      this.isOpen = !this.isOpen;
+    @HostListener('mouseleave') mouseleave(){
+      this.isOpen = false;
     }
+
+    constructor(){}
   }
 
