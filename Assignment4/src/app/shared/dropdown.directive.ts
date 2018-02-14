@@ -12,6 +12,7 @@ export class DropdownDirective {
   @HostListener('click') toggleOpen() {
     this.isOpen = !this.isOpen;
   }
+  // Extra hostlistener that closes the dropdown when mouse leaves
   @HostListener('mouseleave') close(){
     this.isOpen = !this.isOpen;
   }
