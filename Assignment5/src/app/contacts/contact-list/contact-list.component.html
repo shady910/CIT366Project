@@ -1,0 +1,17 @@
+<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+        <h4 class="panel-title pull-left">Contacts</h4>
+        <ul style="background-color: #F4F6F6;" class="panel pull-right">
+          <button  type="button" class="btn btn-success">New Contact
+            </button>
+
+        </ul>
+      </div>
+      <div class="panel-body">
+        <app-contact-item
+          *ngFor="let contact of contacts"
+          [contact]="contact"
+          (click)="onSelected(contact)"></app-contact-item>
+      </div>
+
+
