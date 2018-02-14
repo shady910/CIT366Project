@@ -11,6 +11,7 @@
           <input
             name="title"
             ngModel="{{document?.name}}"
+            #title="ngModel"
             type="text"
             id="name"
             class="form-control"
@@ -24,6 +25,7 @@
           <input
             name="description"
             ngModel="{{document?.description}}"
+            #description="ngModel"
             type="text"
             id="description"
             class="form-control"
@@ -36,6 +38,7 @@
           <input
             name="documentUrl"
             ngModel="{{document?.url}}"
+            #url="ngModel"
             type="text"
             id="documentUrl"
             class="form-control"
