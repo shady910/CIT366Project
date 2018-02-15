@@ -3,7 +3,7 @@ import {Contact} from "../contacts.model";
 import { ContactService} from "../contact.service";
 import {ActivatedRoute, Router, Params} from "@angular/router";
 import {NgForm} from "@angular/forms";
-import {Document} from "../../documents/document.model";
+
 
 
 @Component({
@@ -47,4 +47,34 @@ groupContacts: Contact[] = [];
   onCancel() {
     this.router.navigate(['/contacts']);
   }
+  // invalid conact method
+  isInvalidContact(contact: Contact) {
+    if (!contact || contact.id === this.contact.id) {
+      return true;
+    }
+    if (contact || contact.id === this.contact.id) {
+      return true;
+    }
+    for (let i = 0; i < this.groupContacts.length; i++) {
+      if (contact.id === this.groupContacts[i].id) {
+        return true;
+      }
+    }
+    return false;
+  }
+  // add new function that adds to group
+
+  addToGroup($event: any){
+    let selectedContact: Contact = $event.dragData;
+    if (!this.isInvalidContact(selectedContact)) {
+      this.groupContacts.push(selectedContact);
+    }
+    }
+    onRemoveItem(idx: number){
+    if (idx < 0 || idx >= this.groupContacts.length){
+      this.groupContacts.splice(idx, 1);
+    }
+    }
+
+
 }

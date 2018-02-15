@@ -39,7 +39,7 @@ export class DocumentsService{
   }
   //update Document
   updateDocument(original: Document, updated: Document){
-  let pos;
+  var pos;
   if (original && updated && ( pos = this.documents.indexOf(original)) >= 0){
     updated.id = original.id;
     this.documents[pos] = updated;

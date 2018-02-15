@@ -40,7 +40,7 @@ export class ContactService {
   }
   //update Contact
   updateContact(original: Contact, updated: Contact){
-    let pos;
+    var pos;
     if (original && updated && ( pos = this.contacts.indexOf(original)) >= 0){
       updated.id = original.id;
       this.contacts[pos] = updated;

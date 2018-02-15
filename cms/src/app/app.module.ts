@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-
+import { DndModule} from "ng2-dnd";
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header.component';
@@ -53,7 +53,8 @@ import { ContactEditComponent } from './contacts/contact-edit/contact-edit.compo
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DndModule.forRoot()
   ],
   providers: [ContactService, MessagesService, DocumentsService, WindRefService],
   bootstrap: [AppComponent]
