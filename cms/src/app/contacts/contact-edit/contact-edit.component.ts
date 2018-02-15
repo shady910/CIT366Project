@@ -16,6 +16,7 @@ contact: Contact = null;
 groupContacts: Contact[] = [];
   original: Contact;
   editMode: boolean = false;
+  invalidGroupContaact: boolean = false;
 
   constructor(private contactsService: ContactService,
               private router: Router,
@@ -66,14 +67,21 @@ groupContacts: Contact[] = [];
 
   addToGroup($event: any){
     let selectedContact: Contact = $event.dragData;
-    if (!this.isInvalidContact(selectedContact)) {
-      this.groupContacts.push(selectedContact);
-    }
-    }
+   this.invalidGroupContaact = this.isInvalidContact(selectedContact);
+   if (this.invalidGroupContaact) {
+     return;
+   }
+     this.groupContacts.push(selectedContact);
+     this.invalidGroupContaact = false;
+   }
+
+
+
     onRemoveItem(idx: number){
-    if (idx < 0 || idx >= this.groupContacts.length){
-      this.groupContacts.splice(idx, 1);
-    }
+   if(idx < 0 || idx >= this.groupContacts.length)
+     return;
+   this.groupContacts.splice(idx, 1);
+   this.invalidGroupContaact = false;
     }
 
 
