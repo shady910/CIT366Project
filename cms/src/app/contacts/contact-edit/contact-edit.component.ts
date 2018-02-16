@@ -16,7 +16,7 @@ contact: Contact = null;
 groupContacts: Contact[] = [];
   original: Contact;
   editMode: boolean = false;
-  invalidGroupContaact: boolean = false;
+  invalidGroupContact: boolean = false;
 
   constructor(private contactsService: ContactService,
               private router: Router,
@@ -48,31 +48,31 @@ groupContacts: Contact[] = [];
   onCancel() {
     this.router.navigate(['/contacts']);
   }
-  // invalid conact method
-  isInvalidContact(contact: Contact) {
-    if (!contact || contact.id === this.contact.id) {
-      return true;
-    }
-    if (contact || contact.id === this.contact.id) {
-      return true;
-    }
-    for (let i = 0; i < this.groupContacts.length; i++) {
-      if (contact.id === this.groupContacts[i].id) {
-        return true;
-      }
-    }
-    return false;
+  // invalid contact method
+  isInvalidContact(newContact: Contact) {
+   if(!newContact){
+   return true;
+   }
+   if (newContact.id === this.contact.id){
+     return true;
+   }
+   for (let i = 0; i < this.groupContacts.length; i++){
+     if (newContact.id === this.groupContacts[i].id){
+       return true;
+     }
+   }
+   return false;
   }
   // add new function that adds to group
 
   addToGroup($event: any){
     let selectedContact: Contact = $event.dragData;
-   this.invalidGroupContaact = this.isInvalidContact(selectedContact);
-   if (this.invalidGroupContaact) {
+   this.invalidGroupContact = this.isInvalidContact(selectedContact);
+   if (this.invalidGroupContact) {
      return;
    }
      this.groupContacts.push(selectedContact);
-     this.invalidGroupContaact = false;
+     this.invalidGroupContact = false;
    }
 
 
@@ -81,7 +81,7 @@ groupContacts: Contact[] = [];
    if(idx < 0 || idx >= this.groupContacts.length)
      return;
    this.groupContacts.splice(idx, 1);
-   this.invalidGroupContaact = false;
+   this.invalidGroupContact = false;
     }
 
 

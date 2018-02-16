@@ -18,7 +18,7 @@ import { MessageItemComponent } from './messages/message-item/message-item.compo
 import { MessageListComponent } from './messages/message-list/message-list.component';
 import { MessageEditComponent } from './messages/message-edit/message-edit.component';
 import { DropdownDirective} from "./shared/dropdown.directive";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ContactService} from "./contacts/contact.service";
 import { MessagesService} from "./messages/messages.service";
 import { DocumentsService} from "./documents/documents.service";
@@ -26,6 +26,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import {WindRefService} from "./win-ref.service";
 import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
+
 
 @NgModule({
 
@@ -54,7 +55,8 @@ import { ContactEditComponent } from './contacts/contact-edit/contact-edit.compo
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    DndModule.forRoot()
+    DndModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [ContactService, MessagesService, DocumentsService, WindRefService],
   bootstrap: [AppComponent]
