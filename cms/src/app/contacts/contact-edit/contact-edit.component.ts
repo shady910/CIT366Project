@@ -30,6 +30,10 @@ groupContacts: Contact[] = [];
       }
     });
   }
+
+
+
+
 // The onSubmit method
   onSubmit(form: NgForm){
     const contact: Contact = new Contact(String(this.contactsService.getMaxId()),
@@ -44,36 +48,45 @@ groupContacts: Contact[] = [];
     }
     this.router.navigate(['/contacts']);
   }
+
+
+
   // the onCancel method
   onCancel() {
     this.router.navigate(['/contacts']);
   }
+
+
+
+
   // invalid contact method
   isInvalidContact(newContact: Contact) {
-   if(!newContact){
-   return true;
-   }
-   if (newContact.id === this.contact.id){
-     return true;
-   }
-   for (let i = 0; i < this.groupContacts.length; i++){
-     if (newContact.id === this.groupContacts[i].id){
-       return true;
-     }
-   }
-   return false;
+    if(!newContact){
+      return true;
+    }
+    if (newContact.id === this.contact.id){
+      return true;
+    }
+    for (let i = 0; i < this.groupContacts.length; i++){
+      if (newContact.id === this.groupContacts[i].id){
+        return true;
+      }
+    }
+    return false;
   }
-  // add new function that adds to group
 
+
+
+  // add new function that adds to group
   addToGroup($event: any){
     let selectedContact: Contact = $event.dragData;
-   this.invalidGroupContact = this.isInvalidContact(selectedContact);
-   if (this.invalidGroupContact) {
-     return;
-   }
-     this.groupContacts.push(selectedContact);
-     this.invalidGroupContact = false;
-   }
+    this.invalidGroupContact = this.isInvalidContact(selectedContact);
+    if (this.invalidGroupContact) {
+      return;
+    }
+    this.groupContacts.push(selectedContact);
+    this.invalidGroupContact = false;
+  }
 
 
 
