@@ -1,12 +1,14 @@
-import { Injectable, Output, EventEmitter} from "@angular/core";
+import { Injectable, Output, EventEmitter, OnDestroy, OnInit} from "@angular/core";
 import {Contact} from './contacts.model';
 import { MOCKCONTACTS} from "./MOCKCONTACTS";
 import {Subject} from "rxjs/Subject";
+import {Subscription} from "rxjs/Subscription";
 
 
 @Injectable()
-export class ContactService {
+export class ContactService implements OnDestroy, OnInit {
   contacts: Contact[] = [];
+  subscription: Subscription;
   @Output() contactSelectedEvent: EventEmitter<Contact> = new EventEmitter<Contact>();
   @Output() contactChange: EventEmitter<Contact[]> = new EventEmitter<Contact[]>();
   // the subject event
@@ -18,14 +20,13 @@ export class ContactService {
   }
   // get maxId
   getMaxId(): number {
-    let maxId: number = 0;
-
-    this.contacts.forEach((contact: Contact) => {
-      let currentId: number = Number(contact.id);
-      if (currentId > maxId) {
-        maxId = currentId;
-      }
-    });
+   let maxId = 0;
+   for (let contact of this.contacts){
+     let currentId = +contact.id;
+     if(currentId > maxId){
+       maxId - currentId;
+     }
+   }
     return maxId;
   }
 
@@ -69,4 +70,10 @@ export class ContactService {
     this.contacts.splice(pos, 1);
     this.contactChange.emit(this.contacts.slice());
   }
+ngOnInit(){
+this.subscription = this.contactListChangedEvent.subscribe();
+}
+   ngOnDestroy() {
+    this.contactListChangedEvent.unsubscribe();
+   }
 }

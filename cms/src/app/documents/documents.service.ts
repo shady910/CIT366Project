@@ -1,13 +1,16 @@
-import { Injectable, Output, EventEmitter} from "@angular/core";
+import { Injectable, Output, EventEmitter, OnDestroy, OnInit} from "@angular/core";
 import {Document} from './document.model';
 import { MOCKDOCUMENTS} from "./MOCKDOCUMENTS";
 import { Subject } from 'rxjs/Subject';
+import { Subscription} from "rxjs/Subscription";
 
 @Injectable()
-export class DocumentsService{
+export class DocumentsService implements OnDestroy, OnInit{
   documentListChangedEvent: Subject<Document[]> = new Subject<Document[]>();
   documents: Document[] = [];
   maxDocumentId: number;
+  // bring subscription into scope
+  subscription: Subscription;
 
   @Output() documentSelectedEvent: EventEmitter<Document> = new EventEmitter<Document>();
   @Output() documentChangedEvent: EventEmitter<Document[]> = new EventEmitter<Document[]>();
@@ -65,5 +68,11 @@ export class DocumentsService{
     }
     this.documents.splice(pos, 1);
     this.documentListChangedEvent.next(this.getDocuments());
+  }
+  ngOnInit(){
+    this.subscription = this.documentListChangedEvent.subscribe();
+  }
+  ngOnDestroy(){
+    this.documentListChangedEvent.unsubscribe();
   }
 }
