@@ -15,5 +15,6 @@ this.name = name;
 this.email = email;
 this.phone = phone;
 this.imageUrl = imageUrl;
+this.group = group;
 }
 }

@@ -37,7 +37,7 @@ groupContacts: Contact[] = [];
 // The onSubmit method
   onSubmit(form: NgForm){
     const contact: Contact = new Contact(String(this.contactsService.getMaxId()),
-      form.value.name, form.value.email, form.value.phone, form.value.url,  null);
+      form.value.name, form.value.email, form.value.phone, form.value.url,  this.groupContacts);
 
 
     if (this.editMode) {

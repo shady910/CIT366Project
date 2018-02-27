@@ -8,6 +8,7 @@ import {ActivatedRoute, Router, Params} from "@angular/router";
   styleUrls: ['./contact-detail.component.css']
 })
 export class ContactDetailComponent implements OnInit {
+  groupContacts: Contact[] = [];
 @Input() contact: Contact;
   constructor(private contactsService: ContactService,
   private route: ActivatedRoute,
@@ -16,6 +17,7 @@ export class ContactDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.contact = this.contactsService.getContact(params['id']);
+      this.groupContacts = this.contact.group;
     });
   }
 
