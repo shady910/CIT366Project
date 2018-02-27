@@ -19,6 +19,7 @@ export class ContactDetailComponent implements OnInit {
       this.contact = this.contactsService.getContact(params['id']);
       this.groupContacts = this.contact.group;
     });
+    console.log(this.contact.imageUrl)
   }
 
   // the delete button on the detail html
