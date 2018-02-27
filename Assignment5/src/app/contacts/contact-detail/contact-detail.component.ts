@@ -10,6 +10,7 @@ export class ContactDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // This is where you debug
   }
 
 }
