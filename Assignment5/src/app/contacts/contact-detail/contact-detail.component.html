@@ -1,24 +1,33 @@
-<div class="panel panel-default">
-      <div class="panel-heading clearfix">
-
-        <h4 class="panel-title pull-left" style="padding-top: 7.4px;">Contact Name: {{contact?.name}}</h4>
-        <hr>
-        <img src="{{contact?.imgUrl}}"
-             alt="{{contact?.name}}"
-             class="image-responsive"
-             style="max-height: 1">
-
-        <div class="panel pull-right">
-          <button type="button" class="btn btn-primary">Edit
-          </button>
-          <button type="button" class="btn btn-danger">Delete
-          </button>
-        </div>
-      </div>
-      <div class="panel-body">
-          <span class="pull-left">
-          <h4>Email: {{ contact.email }}</h4>
-          <h4>Phone: {{ contact.phone}}</h4>
-            </span>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <h3>{{ contact.name }}</h3>
       </div>
     </div>
+    <div class="row">
+      <div class="col" *ngIf="contact.imageUrl != ''">
+        <img class="contact-image" style="max-height: 100px" src="{{ contact.imageUrl }}">
+      </div>
+      <div class="col text-right">
+        <a class="btn btn-primary btn-sm mt-4" href="#" role="button">Edit</a>
+        <a class="btn btn-danger btn-sm mt-4" (click)="onDelete()" role="button">Delete</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-block">
+    <div class="container pt-3 pb-3 m-3">
+      <div class="row">
+        <div class="col">
+          <b>Email:</b> {{ contact.email }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <b>Phone:</b> {{ contact.phone }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

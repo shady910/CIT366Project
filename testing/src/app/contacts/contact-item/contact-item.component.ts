@@ -14,5 +14,7 @@ export class ContactItemComponent implements OnInit {
   @Output() contactSelected = new EventEmitter<void>();
 
   constructor() { }
-  ngOnInit() { }
+  ngOnInit() {
+   // console.log(this.contact.imageUrl);
+  }
 }

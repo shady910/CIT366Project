@@ -3,9 +3,10 @@
   <div class="col">
     <h3>{{ contact?.name }}</h3>
     <img
-      *ngIf="contact.imageUrl != ''"
+      *ngIf="contact?.imageUrl != ''"
       class="contact-image img-responsive float-right"
       src="{{ contact?.imageUrl }}"
       alt="{{ contact?.name }}'s picture">
+
   </div>
 </div>
