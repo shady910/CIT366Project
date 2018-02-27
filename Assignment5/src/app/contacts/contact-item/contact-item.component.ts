@@ -10,6 +10,7 @@ export class ContactItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  //  console.log(this.contact.imageUrl);
   }
 
 }

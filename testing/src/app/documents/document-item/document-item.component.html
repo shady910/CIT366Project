@@ -1,0 +1,7 @@
+<div
+  routerLinkActive="active"
+  routerLink="/documents/{{ document.id }}"
+  class="list-group-item border rounded border-secondary d-inline-block float-left document m-1 p-2"
+  (click)="onSelected()">
+  {{ document.name }}
+</div>

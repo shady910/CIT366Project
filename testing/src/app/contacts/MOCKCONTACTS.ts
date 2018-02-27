@@ -1,15 +1,14 @@
-import {Contact} from './contacts.model';
+import {Contact} from './contact.model';
 
 export const MOCKCONTACTS: Contact[] = [
   // individual contacts
   // index 0
-  // IMAGES WON"T DISPLAY FOR SOME REASON
   {
     id: '1',
     name: 'Rex Barzee',
     email: 'barzeer@byui.edu',
     phone: '208-496-3768',
-    imageUrl: '../../images/barzeer.jpg',
+    imageUrl: '../../assets/images/barzeer.jpg',
     group: null
   },
   // index 1

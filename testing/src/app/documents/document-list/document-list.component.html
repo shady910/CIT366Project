@@ -1,0 +1,18 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <h3>Documents</h3>
+      </div>
+      <div class="col text-right">
+        <a class="btn btn-success btn-sm mt-1" routerLink="/documents/new" role="button">Add Document</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-block p-1">
+    <cms-document-item
+      *ngFor="let currentDocument of documents"
+      [document]="currentDocument"></cms-document-item>
+  </div>
+</div>
