@@ -1,4 +1,4 @@
-
-.card {
-  width: 90%;
+.contact-image{
+  display: flex;
+  justify-content: flex-end;
 }

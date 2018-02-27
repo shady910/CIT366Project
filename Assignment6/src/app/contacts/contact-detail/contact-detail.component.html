@@ -1,5 +1,5 @@
-<div class="card">
-  <div class="card-header">
+<div class="panel panel-default">
+  <div class="panel-heading clearfix">
     <div class="row">
       <div class="col">
         <h3>{{ contact?.name }}</h3>
@@ -10,7 +10,7 @@
         <img class="contact-image" style="max-height: 100px" src="{{ contact?.imageUrl }}">
       </div>
       <div class="col text-right">
-        <a class="btn btn-primary btn-sm mt-4" routerLink="/contacts/{{ contact.id }}/edit" href="#" role="button">Edit</a>
+        <a class="btn btn-primary btn-sm mt-4" routerLink="/contacts/{{ contact.id }}/edit" role="button">Edit</a>
         <a class="btn btn-danger btn-sm mt-4" (click)="onDelete()" role="button">Delete</a>
       </div>
     </div>
