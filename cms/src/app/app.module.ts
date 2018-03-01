@@ -26,6 +26,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import {WindRefService} from "./win-ref.service";
 import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
+import { ContactsFilterPipe } from './contacts-filter.pipe';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { ContactEditComponent } from './contacts/contact-edit/contact-edit.compo
     MessageEditComponent,
     DropdownDirective,
     DocumentEditComponent,
-    ContactEditComponent
+    ContactEditComponent,
+    ContactsFilterPipe
     ],
   imports: [
     BrowserModule,
