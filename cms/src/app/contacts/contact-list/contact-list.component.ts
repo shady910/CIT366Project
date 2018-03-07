@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {Contact} from '../contacts.model';
 import { ContactService} from "../contact.service";
 import {Subscription} from "rxjs/Subscription";
+import { ContactsFilterPipe} from "../../contacts-filter.pipe";
 
 @Component({
   selector: 'app-contact-list',
@@ -10,7 +11,8 @@ import {Subscription} from "rxjs/Subscription";
 })
   export class ContactListComponent implements OnInit{
   contacts: Contact[];
-
+// initate an empty term string
+  term: string ='';
   constructor(private contactService: ContactService) {
 
 }
@@ -24,6 +26,10 @@ import {Subscription} from "rxjs/Subscription";
 
   onSelected(contact: Contact){
     this.contactService.contactSelectedEvent.emit(contact);
+  }
+  // New onKeyPress function which connects with the searchBox
+  onKeyPress(value: string){
+    this.term = value;
   }
 
 }

@@ -1,3 +1,4 @@
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { Contact} from "./contacts/contacts.model";
 
@@ -14,9 +15,7 @@ export class ContactsFilterPipe implements PipeTransform {
     // filteredArray.push(contact);
     //   }
     // }
-
     // the shortened version provided in directions
-
     filteredArray = contacts.filter((contact: any) => contact.name.toLowerCase().includes(term.toLowerCase())
     );
 
@@ -26,3 +25,4 @@ export class ContactsFilterPipe implements PipeTransform {
     return filteredArray;
   }
 }
+
