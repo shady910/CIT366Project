@@ -8,7 +8,7 @@ import {MessagesService} from "../messages.service";
   styleUrls: ['./message-list.component.css']
 })
 export class MessageListComponent implements OnInit {
-  messages: Message[] = [];
+  messages: Message[];
 
   constructor(private messagesService: MessagesService) {
     this.messages = this.messagesService.getMessages();

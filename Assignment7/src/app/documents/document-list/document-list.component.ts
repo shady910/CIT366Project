@@ -11,7 +11,7 @@ import {Subscription} from "rxjs/Subscription";
 export class DocumentListComponent implements OnInit {
 subscription: Subscription;
 
-@Input() documents: Document[] = [];
+documents: Document[];
   constructor(private documentsService: DocumentsService) { }
 
   ngOnInit() {

@@ -10,7 +10,8 @@ import {DocumentsService} from "../documents.service";
 export class DocumentListComponent implements OnInit {
 
 
-@Input() documents: Document[] = [];
+
+documents: Document[];
   constructor(private documentsService: DocumentsService) { }
 
   ngOnInit() {
@@ -19,6 +20,8 @@ export class DocumentListComponent implements OnInit {
       this.documents = documents;
     });
   }
+
+
 
 
 }
