@@ -3,6 +3,7 @@ import { Document} from "../document.model";
 import {DocumentsService} from "../documents.service";
 import {ActivatedRoute, Router, Params} from "@angular/router";
 import {NgForm} from "@angular/forms";
+import {Response} from "@angular/http";
 
 @Component({
   selector: 'app-document-edit',
@@ -14,10 +15,19 @@ export class DocumentEditComponent implements OnInit {
   document: Document;
   original: Document;
   editMode: boolean = false;
-
   constructor(private documentsService: DocumentsService,
               private router: Router,
               private route: ActivatedRoute) { }
+// working with the storeDocuments
+  onSaveData(){
+    this.documentsService.storeDocuments()
+    .subscribe(
+      (response: Response) => {
+        console.log(response);
+      }
+    );
+  }
+
 
   ngOnInit() {
     this.route.params.subscribe((params: Params)  => {this.original = this.documentsService.getDocument(params['id']);

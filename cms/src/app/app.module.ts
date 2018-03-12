@@ -57,6 +57,7 @@ import { ContactsFilterPipe } from './contacts-filter.pipe';
   imports: [
     BrowserModule,
     FormsModule,
+    HttpModule,
     AppRoutingModule,
     DndModule.forRoot(),
     ReactiveFormsModule
