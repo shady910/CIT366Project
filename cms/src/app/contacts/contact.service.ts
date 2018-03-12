@@ -3,6 +3,7 @@ import {Contact} from './contacts.model';
 import { MOCKCONTACTS} from "./MOCKCONTACTS";
 import {Subject} from "rxjs/Subject";
 import {Subscription} from "rxjs/Subscription";
+import {Response, Http} from "@angular/http";
 
 
 @Injectable()
@@ -14,9 +15,13 @@ export class ContactService implements OnDestroy, OnInit {
   // the subject event
   contactListChangedEvent: Subject<Contact[]> = new Subject<Contact[]>();
   maxContactId: number;
-  constructor() {
+  // define the contact get url
+  jsonUrl: string='https://cit366cms.firebaseio.com/contacts.json';
+  constructor(private http: Http) {
     this.contacts = MOCKCONTACTS;
     this.maxContactId = this.getMaxId();
+    // call the init function
+    this.initContacts();
   }
   // get maxId
   getMaxId(): number {
@@ -36,7 +41,7 @@ export class ContactService implements OnDestroy, OnInit {
       contact.id = String(++this.maxContactId);
 
       this.contacts.push(contact);
-      this.contactListChangedEvent.next(this.getContacts());
+      this.storeContacts();
     }
   }
   //update Contact
@@ -45,7 +50,7 @@ export class ContactService implements OnDestroy, OnInit {
     if (original && updated && ( pos = this.contacts.indexOf(original)) >= 0){
       updated.id = original.id;
       this.contacts[pos] = updated;
-      this.contactListChangedEvent.next(this.getContacts());
+      this.storeContacts();
     }
   }
 
@@ -68,7 +73,31 @@ export class ContactService implements OnDestroy, OnInit {
       return;
     }
     this.contacts.splice(pos, 1);
-    this.contactChange.emit(this.contacts.slice());
+    this.storeContacts();
+  }
+
+  storeContacts(){
+    // put request overwrites data
+    this.http.put(this.jsonUrl, JSON.stringify(this.contacts))
+      .subscribe(() => {
+        this.contactListChangedEvent.next(this.getContacts());
+      });
+  }
+
+  initContacts(){
+    // Base off of the getRecipes from the downloadable
+    // first get
+    this.http.get(this.jsonUrl)
+    // use the map function
+      .map((response: Response) => {
+        const contacts: Contact[] = response.json();
+        return contacts;
+      })
+      .subscribe((contacts: Contact[]) => {
+        this.contacts = contacts;
+        this.maxContactId = this.getMaxId();
+        this.contactListChangedEvent.next(this.getContacts());
+      })
   }
 ngOnInit(){
 this.subscription = this.contactListChangedEvent.subscribe();
