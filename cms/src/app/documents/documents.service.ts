@@ -33,17 +33,7 @@ export class DocumentsService implements OnDestroy, OnInit{
       return document.id === id;
     })[0] || null;
   }
-  deleteDocument(document: Document){
-    if (document === null){
-      return;
-    }
-    const pos = this.documents.indexOf(document);
-    if (pos < 0){
-      return;
-    }
-    this.documents.splice(pos, 1);
-    this.storeDocuments();
-  }
+
   storeDocuments(){
     // put request overwrites data
     this.http.put(this.jsonUrl, JSON.stringify(this.documents))
@@ -79,7 +69,7 @@ export class DocumentsService implements OnDestroy, OnInit{
     });
     return maxId;
   }
-  // add Document
+  // add Document- partially works, except that the url is not stored.
   addDocument(document: Document){
     if (document) {
       document.id = String(++this.maxDocumentId);
@@ -88,7 +78,7 @@ export class DocumentsService implements OnDestroy, OnInit{
       this.storeDocuments();
     }
   }
-  //update Document
+  //update the document, does not work
   updateDocument(original: Document, updated: Document){
   var pos;
   if (original && updated && ( pos = this.documents.indexOf(original)) >= 0){
@@ -96,6 +86,18 @@ export class DocumentsService implements OnDestroy, OnInit{
     this.documents[pos] = updated;
     this.storeDocuments();
   }
+  }
+// delete the document- works
+  deleteDocument(document: Document){
+    if (document === null){
+      return;
+    }
+    const pos = this.documents.indexOf(document);
+    if (pos < 0){
+      return;
+    }
+    this.documents.splice(pos, 1);
+    this.storeDocuments();
   }
 
 
