@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <div class="row">
+      <h4 class="panel-title pull-left">Contacts</h4>
+
+    <div class="row">
+      <div class="input-group pull-left col-xs-5">
+
+        <!-- Add the search box input field here -->
+        <input type="text"
+               class="form-control"
+               #searchBox
+               (keypress)="onKeyPress(searchBox.value)"
+               >
+
+        <div class="glyphicon glyphicon glyphicon-search input-group-addon" (click)="search(searchBox.value)"></div>
+      </div>
+      <div class="pull-right">
+        <a class="btn btn-success" [routerLink]="['new']">New Contact</a>
+      </div>
+    </div>
+  </div>
+  </div>
+      </div>
+      <div class="panel-body">
+        <app-contact-item
+          *ngFor="let contact of contacts | contactsFilter:term"
+          [contact]="contact"
+        dnd-draggable [dragEnabled]="true" [dragData]="contact" [dropZones]="['contactGroup']"></app-contact-item>
+      </div>

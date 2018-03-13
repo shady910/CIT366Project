@@ -1,0 +1,49 @@
+<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <div class="row">
+      <div class="col">
+        <h3>{{ contact.name }}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col" *ngIf="contact.imageUrl != ''">
+        <img class="contact-image" style="max-height: 100px" src="{{ contact.imageUrl }}">
+      </div>
+      <div class="col text-right">
+        <a class="btn btn-primary btn-sm mt-4" routerLink="edit" role="button">Edit</a>
+        <a class="btn btn-danger btn-sm mt-4" (click)="onDelete()" role="button">Delete</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-block">
+    <div class="container pt-3 pb-3 m-3">
+      <div class="row">
+        <div class="col">
+          <b>Email:</b> {{ contact.email }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <b>Phone:</b> {{ contact.phone }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="groupList">Group contacts</label>
+
+    <div class="row" id="groupList"
+         style="min-height: 3rem;">
+
+      <div *ngFor="let contact of groupContacts; let i = index">
+        <div>
+          <app-contact-item class="col-sm-11" [contact]="contact"></app-contact-item>
+          <button class="btn btn-danger col-sm-2 deleteButton" (click)="onRemoveItem(i)">X</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

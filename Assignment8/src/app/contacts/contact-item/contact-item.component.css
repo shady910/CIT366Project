@@ -1,0 +1,13 @@
+.col {
+  display: flex;
+  justify-content: flex-end;
+}
+.col h3{
+  margin-left: -10%l
+}
+.col img {
+  order: 1;
+  margin-left: 12%;
+  float: right;
+  max-height: 50px;
+}
