@@ -19,7 +19,7 @@ import { ContactsFilterPipe} from "../../contacts-filter.pipe";
 
   ngOnInit() {
     this.contacts = this.contactService.getContacts();
-    this.contactService.contactChange.subscribe((contacts: Contact[])  => {
+    this.contactService.contactListChangedEvent.subscribe((contacts: Contact[])  => {
       this.contacts = contacts;
     });
   }

@@ -17,7 +17,7 @@ export class DocumentsService implements OnDestroy, OnInit{
   jsonUrl: string = 'https://cit366cms.firebaseio.com/documents.json';
 
   @Output() documentSelectedEvent: EventEmitter<Document> = new EventEmitter<Document>();
-  @Output() documentChangedEvent: EventEmitter<Document[]> = new EventEmitter<Document[]>();
+  //@Output() documentChangedEvent: EventEmitter<Document[]> = new EventEmitter<Document[]>();
   constructor(private http: Http ) {
 
     this.initDocuments();

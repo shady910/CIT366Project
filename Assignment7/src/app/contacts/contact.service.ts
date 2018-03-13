@@ -24,7 +24,7 @@ export class ContactService implements OnDestroy, OnInit {
    for (let contact of this.contacts){
      let currentId = +contact.id;
      if(currentId > maxId){
-       maxId - currentId;
+       maxId = currentId;
      }
    }
     return maxId;

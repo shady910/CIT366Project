@@ -4,6 +4,7 @@ import { MOCKCONTACTS} from "./MOCKCONTACTS";
 import {Subject} from "rxjs/Subject";
 import {Subscription} from "rxjs/Subscription";
 import {Response, Http} from "@angular/http";
+import 'rxjs/Rx';
 
 
 @Injectable()
@@ -11,25 +12,27 @@ export class ContactService implements OnDestroy, OnInit {
   contacts: Contact[] = [];
   subscription: Subscription;
   @Output() contactSelectedEvent: EventEmitter<Contact> = new EventEmitter<Contact>();
-  @Output() contactChange: EventEmitter<Contact[]> = new EventEmitter<Contact[]>();
+  //@Output() contactChange: EventEmitter<Contact[]> = new EventEmitter<Contact[]>();
   // the subject event
   contactListChangedEvent: Subject<Contact[]> = new Subject<Contact[]>();
   maxContactId: number;
   // define the contact get url
   jsonUrl: string='https://cit366cms.firebaseio.com/contacts.json';
+
   constructor(private http: Http) {
     this.contacts = MOCKCONTACTS;
     this.maxContactId = this.getMaxId();
     // call the init function
     this.initContacts();
   }
+
   // get maxId
   getMaxId(): number {
    let maxId = 0;
    for (let contact of this.contacts){
      let currentId = +contact.id;
      if(currentId > maxId){
-       maxId - currentId;
+       maxId = currentId;
      }
    }
     return maxId;

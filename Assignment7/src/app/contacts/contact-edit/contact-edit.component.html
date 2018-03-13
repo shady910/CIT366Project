@@ -55,7 +55,7 @@
             max="255">
         </div>
 
-        <div class="row" *ngIf="!phone.valid && phone.dirty">
+        <div class="row" *ngIf="!phone.valid && phone.touched">
           <div class="col">
             <p class="alert alert-danger">Enter a valid phone number.</p>
           </div>
@@ -75,7 +75,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="!f.valid">
+      <div class="row" *ngIf="!f.contact?.name.valid && !f.contact?.email.valid">
         <div class="col">
           <p class="alert alert-danger">The Name and Email are required fields</p>
         </div>

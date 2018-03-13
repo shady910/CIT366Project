@@ -2,6 +2,7 @@ import {Injectable, EventEmitter, Output} from "@angular/core";
 import {Message} from "./message.model";
 import {MOCKMESSAGES} from "./MOCKMESSAGES";
 import {Response, Http} from "@angular/http";
+import 'rxjs/Rx';
 
 @Injectable()
 export class MessagesService {
