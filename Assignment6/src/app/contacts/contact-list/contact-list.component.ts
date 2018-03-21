@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {Contact} from '../contacts.model';
 import { ContactService} from "../contact.service";
-import {Document} from "../../documents/document.model";
+
 
 @Component({
   selector: 'app-contact-list',

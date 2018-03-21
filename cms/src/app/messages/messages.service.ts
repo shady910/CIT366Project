@@ -1,7 +1,7 @@
 import {Injectable, EventEmitter, Output} from "@angular/core";
 import {Message} from "./message.model";
 import {MOCKMESSAGES} from "./MOCKMESSAGES";
-import {Response, Http} from "@angular/http";
+import {Response, Http, Headers} from "@angular/http";
 import 'rxjs/Rx';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class MessagesService {
     for (let contact of this.messages){
       let currentId = +contact.id;
       if(currentId > maxId){
-        maxId - currentId;
+        maxId = currentId;
       }
     }
     return maxId;
@@ -36,9 +36,31 @@ export class MessagesService {
       return message.id === id;
     })[0] || null;
   }
+
+  // addMessage updated according A9 instructions
   addMessage(message: Message) {
-    this.messages.push(message);
-    this.storeMessages();
+    if(!message) {
+      return;
+    }
+
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    message.id = '';
+    const strMessage = JSON.stringify(message);
+
+    this.http.post('http://localhost:3000/messages', strMessage, {headers: headers})
+      .map(
+        (response: Response) => {
+          return response.json().obj;
+        })
+      .subscribe(
+        (messages: Message[]) => {
+          this.messages = messages;
+          this.messageChangeEvent.next(this.messages.slice());
+        }
+      )
   }
 
 

@@ -22,7 +22,7 @@ export class MessagesService {
     for (let contact of this.messages){
       let currentId = +contact.id;
       if(currentId > maxId){
-        maxId - currentId;
+        maxId = currentId;
       }
     }
     return maxId;

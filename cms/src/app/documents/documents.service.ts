@@ -4,7 +4,7 @@ import { MOCKDOCUMENTS} from "./MOCKDOCUMENTS";
 import { Subject } from 'rxjs/Subject';
 import { Subscription} from "rxjs/Subscription";
 import 'rxjs/Rx';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 
 @Injectable()
 export class DocumentsService implements OnDestroy, OnInit{
@@ -14,10 +14,10 @@ export class DocumentsService implements OnDestroy, OnInit{
   // bring subscription into scope
   subscription: Subscription;
   // get the URL to my firebase
-  jsonUrl: string = 'https://cit366cms.firebaseio.com/documents.json';
+  jsonUrl: string = 'http://localhost:3000/documents';
 
   @Output() documentSelectedEvent: EventEmitter<Document> = new EventEmitter<Document>();
-  //@Output() documentChangedEvent: EventEmitter<Document[]> = new EventEmitter<Document[]>();
+   documentChangedEvent: EventEmitter<Document[]> = new EventEmitter<Document[]>();
   constructor(private http: Http ) {
 
     this.initDocuments();
@@ -69,35 +69,75 @@ export class DocumentsService implements OnDestroy, OnInit{
     });
     return maxId;
   }
-  // add Document- partially works, except that the url is not stored.
-  addDocument(document: Document){
-    if (document) {
-      document.id = String(++this.maxDocumentId);
+  // add Document- partially works, except that the url is not stored. WORKS!
+  addDocument(document: Document) {
+    if(!document) {
+      return;
+    }
 
-      this.documents.push(document);
-      this.storeDocuments();
-    }
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    document.id = '';
+    const strDocument = JSON.stringify(document);
+
+    this.http.post('http://localhost:3000/documents', strDocument, {headers: headers})
+      .map(
+        (response: Response) => {
+          return response.json().obj;
+        })
+      .subscribe(
+        (documents: Document[]) => {
+          this.documents = documents;
+          this.documentChangedEvent.next(this.documents.slice());
+        }
+      )
   }
-  //update the document, does not work
-  updateDocument(original: Document, updated: Document){
-  var pos;
-  if (original && updated && ( pos = this.documents.indexOf(original)) >= 0){
-    updated.id = original.id;
-    this.documents[pos] = updated;
-    this.storeDocuments();
-  }
-  }
-// delete the document- works
-  deleteDocument(document: Document){
-    if (document === null){
+  //update the document, does not work. WORKS, especially after updating it according to assignment 9 instructions
+  updateDocument(originalDocument: Document, newDocument: Document) {
+    if(!originalDocument || !newDocument) {
       return;
     }
-    const pos = this.documents.indexOf(document);
-    if (pos < 0){
+
+    const pos = this.documents.indexOf(originalDocument);
+    if(pos < 0) { // original document not in list
       return;
     }
-    this.documents.splice(pos, 1);
-    this.storeDocuments();
+
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    const strDocument = JSON.stringify(newDocument);
+
+    this.http.patch('http://localhost:3000/documents/' + originalDocument.id, strDocument, {headers: headers})
+      .map(
+        (response: Response) => {
+          return response.json().obj;
+        })
+      .subscribe(
+        (documents: Document[]) => {
+          this.documents = documents;
+          this.documentChangedEvent.next(this.documents.slice());
+        });
+  }
+// delete the document- works-> updated according to assignment 9 instructions
+  deleteDocument(document: Document) {
+    if (!document) {
+      return;
+    }
+
+    this.http.delete('http://localhost:3000/documents/' + document.id)
+      .map(
+        (response: Response) => {
+          return response.json().obj;
+        })
+      .subscribe(
+        (documents: Document[]) => {
+          this.documents = documents;
+          this.documentChangedEvent.next(this.documents.slice());
+        });
   }
 
 

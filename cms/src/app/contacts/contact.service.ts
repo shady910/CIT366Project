@@ -3,7 +3,7 @@ import {Contact} from './contacts.model';
 import { MOCKCONTACTS} from "./MOCKCONTACTS";
 import {Subject} from "rxjs/Subject";
 import {Subscription} from "rxjs/Subscription";
-import {Response, Http} from "@angular/http";
+import {Response, Http, Headers} from "@angular/http";
 import 'rxjs/Rx';
 
 
@@ -12,7 +12,7 @@ export class ContactService implements OnDestroy, OnInit {
   contacts: Contact[] = [];
   subscription: Subscription;
   @Output() contactSelectedEvent: EventEmitter<Contact> = new EventEmitter<Contact>();
-  //@Output() contactChange: EventEmitter<Contact[]> = new EventEmitter<Contact[]>();
+  contactChange: EventEmitter<Contact[]> = new EventEmitter<Contact[]>();
   // the subject event
   contactListChangedEvent: Subject<Contact[]> = new Subject<Contact[]>();
   maxContactId: number;
@@ -38,23 +38,58 @@ export class ContactService implements OnDestroy, OnInit {
     return maxId;
   }
 
-// add Contact
-  addContact(contact: Contact){
-    if (contact) {
-      contact.id = String(++this.maxContactId);
+// add Contact updated according to A9 instructions
+  addContact(contact: Contact) {
+    if(!contact) {
+      return;
+    }
 
-      this.contacts.push(contact);
-      this.storeContacts();
-    }
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    contact.id = '';
+    const strContact = JSON.stringify(contact);
+
+    this.http.post('http://localhost:3000/contacts', strContact, {headers: headers})
+      .map(
+        (response: Response) => {
+          return response.json().obj;
+        })
+      .subscribe(
+        (contacts: Contact[]) => {
+          this.contacts = contacts;
+          this.contactChange.next(this.contacts.slice());
+        }
+      )
   }
-  //update Contact
-  updateContact(original: Contact, updated: Contact){
-    var pos;
-    if (original && updated && ( pos = this.contacts.indexOf(original)) >= 0){
-      updated.id = original.id;
-      this.contacts[pos] = updated;
-      this.storeContacts();
+  //update Contact function according to A9 instructions
+  updateContact(originalContact: Contact, newContact: Contact) {
+    if(!originalContact || !newContact) {
+      return;
     }
+
+    const pos = this.contacts.indexOf(originalContact);
+    if(pos < 0) { // original contact not in list
+      return;
+    }
+
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    const strContact = JSON.stringify(newContact);
+
+    this.http.patch('http://localhost:3000/contacts/' + originalContact.id, strContact, {headers: headers})
+      .map(
+        (response: Response) => {
+          return response.json().obj;
+        })
+      .subscribe(
+        (contacts: Contact[]) => {
+          this.contacts = contacts;
+          this.contactChange.next(this.contacts.slice());
+        });
   }
 
   getContacts(): Contact[] {
@@ -66,17 +101,22 @@ export class ContactService implements OnDestroy, OnInit {
       return contact.id === id;
     })[0] || null;
 }
+// delete function updated according to A9 instruction
+  deleteContact(contact: Contact) {
+    if (!contact) {
+      return;
+    }
 
-  deleteContact(contact: Contact){
-    if (contact === null){
-      return;
-    }
-    const pos = this.contacts.indexOf(contact);
-    if (pos < 0){
-      return;
-    }
-    this.contacts.splice(pos, 1);
-    this.storeContacts();
+    this.http.delete('http://localhost:3000/contacts/' + contact.id)
+      .map(
+        (response: Response) => {
+          return response.json().obj;
+        })
+      .subscribe(
+        (contacts: Contact[]) => {
+          this.contacts = contacts;
+          this.contactChange.next(this.contacts.slice());
+        });
   }
 
   storeContacts(){
