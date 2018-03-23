@@ -1,21 +1,68 @@
+var sequenceGenerator = require('../routes/sequencegenerator');
+
 var express = require('express');
 var router = express.Router();
 
 var Document = require('../models/document');
-var sequenceGenerator = require('../routes/sequencegenerator');
+
+
+// get the documents from the collection
+var getDocuments = function (request, response) {
+  Document.find()
+    .exec(function (error, documents) {
+      if (error) {
+        return response.status(500).json({
+          title: 'An error occurred',
+          error: error
+        });
+      }
+      response.status(200).json({
+        message: 'Success',
+        obj: documents
+      });
+    });
+}
+// save the document into the collection
+var saveDocument = function (response, document) {
+  document.save(function (error, result) {
+    response.setHeader('Content-Type', 'application/json');
+    if (error) {
+      return response.status(500).json({
+        title: 'An error occurred',
+        error: error
+      });
+    }
+    getDocuments('', response);
+  });
+};
+
+// delete the Doucment
+
+var deleteDocument = function (response, document) {
+  document.remove(function(err, result) {
+    response.setHeader('Content-Type', 'application/json');
+    if (err) {
+      return response.status(500).json({
+        title: 'An error occurred',
+        error: err
+      });
+    }
+    getDocuments('', response);
+  });
+};
 // route.get function
 router.get('/', function (req, response, next) {
-  getDocuments(response);
+  getDocuments(req, response);
 });
 
 // route.post function
-router.post('/', function (req, response, next) {
+router.post('/', function (request, response, next) {
   var maxDocumentId = sequenceGenerator.nextId('documents');
   var document = new Document({
     id: maxDocumentId,
-    name: req.body.name,
+    name: request.body.name,
     description: req.body.description,
-    url: req.body.url
+    url: request.body.url
   });
   saveDocument(response, document);
 });
@@ -56,49 +103,4 @@ router.delete('/:id', function (req, res, next) {
     deleteDocument(res, document);
   });
 });
-// get the documents from the collection
-var getDocuments = function (response) {
-  Document.find()
-    .exec(function (error, documents) {
-      if (error) {
-        return response.status(500).json({
-          title: 'An error occurred',
-          error: error
-        });
-      }
-      response.status(200).json({
-        message: 'Success',
-        obj: documents
-      });
-    });
-};
-// save the document into the collection
-var saveDocument = function (response, document) {
-  document.save(function (error, result) {
-    response.setHeader('Content-Type', 'application/json');
-    if (error) {
-      return res.status(500).json({
-        title: 'An error occurred',
-        error: error
-      });
-    }
-    getDocuments(res);
-  });
-};
-
-// delete the Doucment
-
-var deleteDocument = function (response, document) {
-  document.remove(function(err, result) {
-    response.setHeader('Content-Type', 'application/json');
-    if (err) {
-      return response.status(500).json({
-        title: 'An error occurred',
-        error: err
-      });
-    }
-    getDocuments(response);
-  });
-};
-
 module.exports = router;

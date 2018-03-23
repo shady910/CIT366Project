@@ -60,8 +60,21 @@ var saveMessage = function (res, message) {
         error: err
       });
     }
-    getMessages(res);
+    getMessages('', res);
   });
 };
+
+// DELETE THE MESSAGE
+var deleteMessage = function(response, message) {
+    message.remove(function(err, results){
+        if (err) {
+            return response.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
+          }
+        getMessages('', response);
+      });
+  }
 
 module.exports = router;

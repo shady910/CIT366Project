@@ -6,7 +6,7 @@ var Contact = require('../models/contact');
 var sequenceGenerator = require('../routes/sequencegenerator');
 
 router.get('/', function (req, res, next) {
-  getContacts(res);
+  getContacts(req, res);
 });
 
 router.post('/', function (req, res, next) {
@@ -60,17 +60,17 @@ router.delete('/:id', function (req, res, next) {
   });
 });
 
-var getContacts = function(res) {
+var getContacts = function(request, response) {
   Contact.find()
     .populate('group')
     .exec(function (err, contacts) {
       if (err) {
-        return res.status(500).json({
-          title: 'An error occured',
+        return response.status(500).json({
+          title: 'An error occurred',
           error: err
         });
       }
-      res.status(200).json({
+      response.status(200).json({
         message: 'Success',
         obj: contacts
       });
@@ -84,7 +84,7 @@ var saveContact = function (response, contact) {
       groupContact = groupContact._id;
     }
   }
-  contact.save(function (err, saveResponse) {
+  contact.save(function (err, results) {
     response.setHeader('Content-Type', 'application/json');
     if (err) {
       return response.status(500).json({
@@ -92,7 +92,7 @@ var saveContact = function (response, contact) {
         error: err
       });
     }
-    getContacts(response);
+    getContacts('', response);
   });
 };
 
@@ -105,8 +105,9 @@ var deleteContact = function (res, contact) {
         error: err
       });
     }
+
+  getContacts('', res);
   });
-  getContacts(res);
 };
 
 module.exports = router;
