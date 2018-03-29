@@ -32,7 +32,10 @@ var saveDocument = function (response, document) {
         error: error
       });
     }
-    getDocuments('', response);
+    return response.status(201).json({
+      title: 'Document added',
+      obj: result
+    });
   });
 };
 
@@ -47,7 +50,11 @@ var deleteDocument = function (response, document) {
         error: err
       });
     }
-    getDocuments('', response);
+
+    return response.status(200).json({
+      title: 'Document deleted',
+      error: result
+    });
   });
 };
 // route.get function
@@ -61,7 +68,7 @@ router.post('/', function (request, response, next) {
   var document = new Document({
     id: maxDocumentId,
     name: request.body.name,
-    description: req.body.description,
+    description: request.body.description,
     url: request.body.url
   });
   saveDocument(response, document);

@@ -19,7 +19,7 @@ const documentsRoutes = require('./server/routes/documents');
 // establish a connection to the mongo database
 // *** Important *** change yourPort and yourDatabase
 //     to those used by your database
-mongoose.connect('localhost:27017/cms');
+mongoose.connect('mongodb://localhost:27017/cms');
 
 var app = express(); // create an instance of express
 
@@ -36,21 +36,21 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Tell express to map the default route ("/") to the index route
 app.use('/', index);
-app.use('/messages', messageRoutes);
-app.use('/contacts', contactRoutes);
-app.use('/documents', documentsRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/contacts', contactRoutes);
+app.use('/api/documents', documentsRoutes);
 
 // ... ADD YOUR CODE TO MAP YOUR URL'S TO ROUTING FILES HERE ...
 // Tell express to map all other non-defined routes back to the index page
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  res.render("index");
-});
+//app.use(function(req, res, next) {
+ // res.render("index");
+//});
 
 // Tell express to map all other non-defined routes back to the index page
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'dist/index.html'));
-// });
+ app.get('*', (req, res) => {
+ res.sendFile(path.join(__dirname, 'dist/index.html'));
+ });
 
 // Define the port address and tell express to use this port
 const port = process.env.PORT || '3000';

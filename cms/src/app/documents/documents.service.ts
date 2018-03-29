@@ -14,15 +14,15 @@ export class DocumentsService implements OnDestroy, OnInit{
   // bring subscription into scope
   subscription: Subscription;
   // get the URL to my firebase
-  jsonUrl: string = 'http://localhost:3000/documents';
+  jsonUrl: string = 'http://localhost:3000/api/documents';
 
   @Output() documentSelectedEvent: EventEmitter<Document> = new EventEmitter<Document>();
    documentChangedEvent: EventEmitter<Document[]> = new EventEmitter<Document[]>();
   constructor(private http: Http ) {
 
     this.initDocuments();
-    this.documents = MOCKDOCUMENTS
-    this.maxDocumentId = this.getMaxId();
+    //this.documents = MOCKDOCUMENTS
+
   }
 
   getDocuments(): Document[] {
@@ -48,7 +48,7 @@ export class DocumentsService implements OnDestroy, OnInit{
     this.http.get(this.jsonUrl)
       // use the map function
       .map((response: Response) => {
-        const documents: Document[] = response.json();
+        const documents: Document[] = response.json().obj;
         return documents;
       })
       .subscribe((documents: Document[]) => {
@@ -82,14 +82,14 @@ export class DocumentsService implements OnDestroy, OnInit{
     document.id = '';
     const strDocument = JSON.stringify(document);
 
-    this.http.post('http://localhost:3000/documents', strDocument, {headers: headers})
+    this.http.post('http://localhost:3000/api/documents', strDocument, {headers: headers})
       .map(
         (response: Response) => {
           return response.json().obj;
         })
       .subscribe(
-        (documents: Document[]) => {
-          this.documents = documents;
+        (document: Document) => {
+          this.documents.push(document);
           this.documentChangedEvent.next(this.documents.slice());
         }
       )
@@ -111,14 +111,14 @@ export class DocumentsService implements OnDestroy, OnInit{
 
     const strDocument = JSON.stringify(newDocument);
 
-    this.http.patch('http://localhost:3000/documents/' + originalDocument.id, strDocument, {headers: headers})
+    this.http.patch('http://localhost:3000/api/documents/' + originalDocument.id, strDocument, {headers: headers})
       .map(
         (response: Response) => {
           return response.json().obj;
         })
       .subscribe(
-        (documents: Document[]) => {
-          this.documents = documents;
+        (document: Document) => {
+          this.documents[pos] = document;
           this.documentChangedEvent.next(this.documents.slice());
         });
   }
@@ -128,15 +128,23 @@ export class DocumentsService implements OnDestroy, OnInit{
       return;
     }
 
-    this.http.delete('http://localhost:3000/documents/' + document.id)
+    const pos = this.documents.indexOf(document);
+    if(pos < 0) { // original document not in list
+      return;
+    }
+
+    this.http.delete('http://localhost:3000/api/documents/' + document.id)
       .map(
         (response: Response) => {
-          return response.json().obj;
+          return response.json();
         })
       .subscribe(
-        (documents: Document[]) => {
-          this.documents = documents;
-          this.documentChangedEvent.next(this.documents.slice());
+        (json) => {
+          if(json.title == 'Document deleted') {
+            this.documents.splice(pos, 1);
+
+            this.documentChangedEvent.next(this.documents.slice());
+          }
         });
   }
 
