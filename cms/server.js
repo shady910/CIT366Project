@@ -36,9 +36,12 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Tell express to map the default route ("/") to the index route
 app.use('/', index);
-app.use('/api/messages', messageRoutes);
-app.use('/api/contacts', contactRoutes);
-app.use('/api/documents', documentsRoutes);
+app.use('/dir/messages', function(re, res, next) {
+  console.log('middleware');
+  next();
+}, messageRoutes);
+app.use('/dir/contacts', contactRoutes);
+app.use('/dir/documents', documentsRoutes);
 
 // ... ADD YOUR CODE TO MAP YOUR URL'S TO ROUTING FILES HERE ...
 // Tell express to map all other non-defined routes back to the index page

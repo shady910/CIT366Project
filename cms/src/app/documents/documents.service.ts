@@ -1,6 +1,6 @@
 import { Injectable, Output, EventEmitter, OnDestroy, OnInit} from "@angular/core";
 import {Document} from './document.model';
-import { MOCKDOCUMENTS} from "./MOCKDOCUMENTS";
+
 import { Subject } from 'rxjs/Subject';
 import { Subscription} from "rxjs/Subscription";
 import 'rxjs/Rx';
@@ -13,8 +13,8 @@ export class DocumentsService implements OnDestroy, OnInit{
   maxDocumentId: number;
   // bring subscription into scope
   subscription: Subscription;
-  // get the URL to my firebase
-  jsonUrl: string = 'http://localhost:3000/api/documents';
+  // get the URL external database, whether it be mongo or firebase
+  jsonUrl: string = 'http://localhost:3000/dir/documents';
 
   @Output() documentSelectedEvent: EventEmitter<Document> = new EventEmitter<Document>();
    documentChangedEvent: EventEmitter<Document[]> = new EventEmitter<Document[]>();
@@ -32,6 +32,19 @@ export class DocumentsService implements OnDestroy, OnInit{
     return this.documents.filter((document: Document) => {
       return document.id === id;
     })[0] || null;
+  }
+
+  // get Max id
+  getMaxId(): number {
+    let maxId: number = 0;
+
+    this.documents.forEach((document: Document) => {
+      let currentId: number = Number(document.id);
+      if (currentId > maxId) {
+        maxId = currentId;
+      }
+    });
+    return maxId;
   }
 
   storeDocuments(){
@@ -57,18 +70,7 @@ export class DocumentsService implements OnDestroy, OnInit{
         this.documentListChangedEvent.next(this.getDocuments());
     })
   }
-  // get Max id
-  getMaxId(): number {
-    let maxId: number = 0;
 
-    this.documents.forEach((document: Document) => {
-      let currentId: number = Number(document.id);
-      if (currentId > maxId) {
-        maxId = currentId;
-      }
-    });
-    return maxId;
-  }
   // add Document- partially works, except that the url is not stored. WORKS!
   addDocument(document: Document) {
     if(!document) {
@@ -82,7 +84,7 @@ export class DocumentsService implements OnDestroy, OnInit{
     document.id = '';
     const strDocument = JSON.stringify(document);
 
-    this.http.post('http://localhost:3000/api/documents', strDocument, {headers: headers})
+    this.http.post('http://localhost:3000/dir/documents', strDocument, {headers: headers})
       .map(
         (response: Response) => {
           return response.json().obj;
@@ -111,7 +113,7 @@ export class DocumentsService implements OnDestroy, OnInit{
 
     const strDocument = JSON.stringify(newDocument);
 
-    this.http.patch('http://localhost:3000/api/documents/' + originalDocument.id, strDocument, {headers: headers})
+    this.http.patch('http://localhost:3000/dir/documents/' + originalDocument.id, strDocument, {headers: headers})
       .map(
         (response: Response) => {
           return response.json().obj;
@@ -133,7 +135,7 @@ export class DocumentsService implements OnDestroy, OnInit{
       return;
     }
 
-    this.http.delete('http://localhost:3000/api/documents/' + document.id)
+    this.http.delete('http://localhost:3000/dir/documents/' + document.id)
       .map(
         (response: Response) => {
           return response.json();

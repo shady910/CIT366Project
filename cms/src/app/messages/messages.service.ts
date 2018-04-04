@@ -1,6 +1,6 @@
 import {Injectable, EventEmitter, Output} from "@angular/core";
 import {Message} from "./message.model";
-import {MOCKMESSAGES} from "./MOCKMESSAGES";
+//import {MOCKMESSAGES} from "./MOCKMESSAGES";
 import {Response, Http, Headers} from "@angular/http";
 import 'rxjs/Rx';
 
@@ -8,15 +8,26 @@ import 'rxjs/Rx';
 export class MessagesService {
   @Output() messageChangeEvent = new EventEmitter<Message[]>();
   messages: Message[] = [];
-  // jsonUrl
-  jsonUrl: string= 'https://cit366cms.firebaseio.com/messages.json';
+  // jsonUrl that connects to external database
+  jsonUrl: string = 'http://localhost:3000/dir/messages';
   maxMsgId: number;
 
   constructor(private http: Http){
     //this.messages = MOCKMESSAGES;
-
+// call the lifecycle function
     this.initMessages();
   }
+// get all messages
+  getMessages(): Message[] {
+    return this.messages.slice();
+  }
+  // get One message
+  getMessage(id: string): Message {
+    return this.messages.filter((message: Message) => {
+      return message.id === id;
+    })[0] || null;
+  }
+
   getMaxId(): number {
     let maxId = 0;
     for (let contact of this.messages){
@@ -28,13 +39,30 @@ export class MessagesService {
     return maxId;
   }
 
-  getMessages(): Message[] {
-    return this.messages.slice();
+// save the new change to Mongo
+
+  storeMessages(){
+    // put request overwrites data
+    this.http.put(this.jsonUrl, JSON.stringify(this.messages))
+      .subscribe(() => {
+        this.messageChangeEvent.next(this.getMessages());
+      });
   }
-  getMessage(id: string): Message {
-    return this.messages.filter((message: Message) => {
-      return message.id === id;
-    })[0] || null;
+
+  initMessages(){
+    // Base off of the getRecipes from the downloadable
+    // first getf
+    this.http.get(this.jsonUrl)
+    // use the map function
+      .map((response: Response) => {
+        const messages: Message[] = response.json().obj;
+        return messages;
+      })
+      .subscribe((messages: Message[]) => {
+        this.messages = messages;
+        this.maxMsgId = this.getMaxId();
+        this.messageChangeEvent.next(this.getMessages());
+      })
   }
 
   // addMessage updated according A9 instructions
@@ -50,7 +78,7 @@ export class MessagesService {
     message.id = '';
     const strMessage = JSON.stringify(message);
 
-    this.http.post('http://localhost:3000/messages', strMessage, {headers: headers})
+    this.http.post('http://localhost:3000/dir/messages', strMessage, {headers: headers})
       .map(
         (response: Response) => {
           return response.json().obj;
@@ -64,27 +92,4 @@ export class MessagesService {
   }
 
 
-    storeMessages(){
-  // put request overwrites data
-  this.http.put(this.jsonUrl, JSON.stringify(this.messages))
-.subscribe(() => {
-  this.messageChangeEvent.next(this.getMessages());
-});
-}
-
-initMessages(){
-  // Base off of the getRecipes from the downloadable
-  // first get
-  this.http.get(this.jsonUrl)
-  // use the map function
-    .map((response: Response) => {
-      const messages: Message[] = response.json();
-      return messages;
-    })
-    .subscribe((messages: Message[]) => {
-      this.messages = messages;
-      this.maxMsgId = this.getMaxId();
-      this.messageChangeEvent.next(this.getMessages());
-    })
-}
 }

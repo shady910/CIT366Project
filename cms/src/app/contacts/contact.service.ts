@@ -18,7 +18,7 @@ export class ContactService implements OnDestroy, OnInit {
   contactListChangedEvent: Subject<Contact[]> = new Subject<Contact[]>();
   maxContactId: number;
   // define the contact get url
-  jsonUrl: string='http://localhost:3000/api/contacts';
+  jsonUrl: string='http://localhost:3000/dir/contacts';
 
   constructor(private http: Http) {
     //this.contacts = MOCKCONTACTS;
@@ -51,7 +51,7 @@ export class ContactService implements OnDestroy, OnInit {
     this.http.get(this.jsonUrl)
     // use the map function
       .map((response: Response) => {
-        const contacts: Contact[] = response.json();
+        const contacts: Contact[] = response.json().obj;
         return contacts;
       })
       .subscribe((contacts: Contact[]) => {
@@ -87,7 +87,7 @@ export class ContactService implements OnDestroy, OnInit {
     contact.id = '';
     const strContact = JSON.stringify(contact);
 
-    this.http.post('http://localhost:3000/api/contacts', strContact, {headers: headers})
+    this.http.post('http://localhost:3000/dir/contacts', strContact, {headers: headers})
       .map(
         (response: Response) => {
           return response.json().obj;
@@ -99,6 +99,7 @@ export class ContactService implements OnDestroy, OnInit {
         }
       )
   }
+
   //update Contact function according to A9 instructions
   updateContact(originalContact: Contact, newContact: Contact) {
     if(!originalContact || !newContact) {
@@ -116,7 +117,7 @@ export class ContactService implements OnDestroy, OnInit {
 
     const strContact = JSON.stringify(newContact);
 
-    this.http.patch('http://localhost:3000/api/contacts/' + originalContact.id, strContact, {headers: headers})
+    this.http.patch('http://localhost:3000/dir/contacts/' + originalContact.id, strContact, {headers: headers})
       .map(
         (response: Response) => {
           return response.json().obj;
@@ -139,15 +140,18 @@ export class ContactService implements OnDestroy, OnInit {
       return;
     }
 
-    this.http.delete('http://localhost:3000/api/contacts/' + contact.id)
+    this.http.delete('http://localhost:3000/dir/contacts/' + contact.id)
       .map(
         (response: Response) => {
-          return response.json().obj;
+          return response.json();
         })
       .subscribe(
-        (contacts: Contact[]) => {
-          this.contacts = contacts;
-          this.contactChange.next(this.contacts.slice());
+        (json) => {
+          if(json.title == 'Contact deleted') {
+            this.contacts.splice(pos, 1);
+
+            this.contactChange.next(this.contacts.slice());
+          }
         });
   }
 

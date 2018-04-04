@@ -1,64 +1,10 @@
+var sequenceGenerator = require('../routes/sequencegenerator');
 
 var express = require('express');
 var router = express.Router();
 
 var Contact = require('../models/contact');
-var sequenceGenerator = require('../routes/sequencegenerator');
 
-router.get('/', function (req, res, next) {
-  getContacts(req, res);
-});
-
-router.post('/', function (req, res, next) {
-  var maxContactsId = sequenceGenerator.nextId('contacts');
-  var contact = new Contact({
-    id: maxContactsId,
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    imageUrl: req.body.imageUrl,
-    group: req.body.group
-  });
-  saveContact(res, contact);
-});
-
-router.patch('/:id', function (req, res, next) {
-  Contact.findOne({id: req.params.id}, function (err, contact) {
-    if (err || !contact) {
-      return res.status(500).json({
-        title: 'No Contact Found!',
-        error: {contact: 'Contact not found'}
-      });
-    }
-    contact.name = req.body.name;
-    contact.email = req.body.email;
-    contact.phone = req.body.phone;
-    contact.imageUrl = req.body.imageUrl;
-    contact.group = req.body.group;
-
-    saveContact(res, contact);
-  });
-});
-
-router.delete('/:id', function (req, res, next) {
-  var query = {id: req.params.id};
-
-  Contact.findOne(query, function (err, contact) {
-    if (err) {
-      return res.status(500).json({
-        title: 'No Contact Found',
-        error: err
-      });
-    }
-    if (!contact) {
-      return res.status(500).json({
-        title: 'No Contact Found!',
-        error: {contactId: req.params.id}
-      });
-    }
-    deleteContact(res, contact);
-  });
-});
 
 var getContacts = function(request, response) {
   Contact.find()
@@ -84,7 +30,25 @@ var saveContact = function (response, contact) {
       groupContact = groupContact._id;
     }
   }
+
   contact.save(function (err, results) {
+    //response.setHeader('Content-Type', 'application/json');
+    if (err) {
+      return response.status(500).json({
+        title: 'An error occurred',
+        error: err
+      });
+    }
+
+return response.status(201).json({
+  title: 'Contact added',
+  obj: results
+    })
+  });
+};
+
+var deleteContact = function (response, contact) {
+  contact.remove(function (err, result) {
     response.setHeader('Content-Type', 'application/json');
     if (err) {
       return response.status(500).json({
@@ -92,22 +56,69 @@ var saveContact = function (response, contact) {
         error: err
       });
     }
-    getContacts('', response);
+
+    return response.status(200).json({
+      title: 'Contact deleted',
+      error: result
+    })
   });
 };
 
-var deleteContact = function (res, contact) {
-  contact.remove(function (err, result) {
-    res.setHeader('Content-Type', 'application/json');
+router.get('/', function (req, response, next) {
+  getContacts(req, response);
+});
+
+router.post('/', function (req, response, next) {
+  var maxContactsId = sequenceGenerator.nextId('contacts');
+  var contact = new Contact({
+    id: maxContactsId,
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    imageUrl: req.body.imageUrl,
+    group: req.body.group
+  });
+  saveContact(response, contact);
+});
+
+router.patch('/:id', function (req, response, next) {
+  Contact.findOne({id: req.params.id}, function (err, contact) {
+    if (err || !contact) {
+      return response.status(500).json({
+        title: 'No Contact Found!',
+        error: {contact: 'Contact not found'}
+      });
+    }
+    contact.name = req.body.name;
+    contact.email = req.body.email;
+    contact.phone = req.body.phone;
+    contact.imageUrl = req.body.imageUrl;
+    contact.group = req.body.group;
+
+    saveContact(response, contact);
+  });
+});
+
+router.delete('/:id', function (req, res, next) {
+  var query = {id: req.params.id};
+
+  Contact.findOne(query, function (err, contact) {
     if (err) {
       return res.status(500).json({
-        title: 'An error occurred',
+        title: 'No Contact Found',
         error: err
       });
     }
-
-  getContacts('', res);
+    if (!contact) {
+      return res.status(500).json({
+        title: 'No Contact Found!',
+        error: {contactId: req.params.id}
+      });
+    }
+    deleteContact(res, contact);
   });
-};
+});
+
+
 
 module.exports = router;
