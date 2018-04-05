@@ -16,14 +16,14 @@ subscription: Subscription;
 
   ngOnInit() {
     this.documents = this.documentsService.getDocuments();
-    this.documentsService.documentListChangedEvent.subscribe((documents: Document[])  => {
+    this.subscription = this.documentsService.documentListChangedEvent.subscribe((documents: Document[])  => {
       this.documents = documents;
     });
   }
 
-  //ngOnDestroy() {
-    //this.subscription.unsubscribe();
-  //}
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 
 }

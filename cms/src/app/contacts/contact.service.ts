@@ -95,7 +95,7 @@ export class ContactService implements OnDestroy, OnInit {
       .subscribe(
         (contact: Contact) => {
           this.contacts.push(contact);
-          this.contactChange.next(this.contacts.slice());
+          this.contactListChangedEvent.next(this.contacts.slice());
         }
       )
   }
@@ -125,7 +125,7 @@ export class ContactService implements OnDestroy, OnInit {
       .subscribe(
         (contact: Contact) => {
           this.contacts[pos] = contact;
-          this.contactChange.next(this.contacts.slice());
+          this.contactListChangedEvent.next(this.contacts.slice());
         });
   }
 
@@ -150,7 +150,7 @@ export class ContactService implements OnDestroy, OnInit {
           if(json.title == 'Contact deleted') {
             this.contacts.splice(pos, 1);
 
-            this.contactChange.next(this.contacts.slice());
+            this.contactListChangedEvent.next(this.contacts.slice());
           }
         });
   }

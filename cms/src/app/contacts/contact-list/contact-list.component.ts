@@ -11,6 +11,8 @@ import { ContactsFilterPipe} from "../../contacts-filter.pipe";
 })
   export class ContactListComponent implements OnInit{
   contacts: Contact[];
+  // subscribe
+  subscription: Subscription;
 // initate an empty term string
   term: string ='';
   constructor(private contactService: ContactService) {
@@ -19,7 +21,7 @@ import { ContactsFilterPipe} from "../../contacts-filter.pipe";
 
   ngOnInit() {
     this.contacts = this.contactService.getContacts();
-    this.contactService.contactListChangedEvent.subscribe((contacts: Contact[])  => {
+    this.subscription = this.contactService.contactListChangedEvent.subscribe((contacts: Contact[])  => {
       this.contacts = contacts;
     });
   }

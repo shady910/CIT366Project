@@ -1,8 +1,8 @@
 import {Injectable, EventEmitter, Output} from "@angular/core";
 import {Message} from "./message.model";
-//import {MOCKMESSAGES} from "./MOCKMESSAGES";
 import {Response, Http, Headers} from "@angular/http";
 import 'rxjs/Rx';
+import {ContactService} from "../contacts/contact.service";
 
 @Injectable()
 export class MessagesService {
@@ -12,7 +12,8 @@ export class MessagesService {
   jsonUrl: string = 'http://localhost:3000/dir/messages';
   maxMsgId: number;
 
-  constructor(private http: Http){
+  constructor(private http: Http,
+              private contactService: ContactService){
     //this.messages = MOCKMESSAGES;
 // call the lifecycle function
     this.initMessages();

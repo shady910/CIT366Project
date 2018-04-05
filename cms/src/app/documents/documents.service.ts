@@ -92,7 +92,7 @@ export class DocumentsService implements OnDestroy, OnInit{
       .subscribe(
         (document: Document) => {
           this.documents.push(document);
-          this.documentChangedEvent.next(this.documents.slice());
+          this.documentListChangedEvent.next(this.documents.slice());
         }
       )
   }
@@ -121,7 +121,7 @@ export class DocumentsService implements OnDestroy, OnInit{
       .subscribe(
         (document: Document) => {
           this.documents[pos] = document;
-          this.documentChangedEvent.next(this.documents.slice());
+          this.documentListChangedEvent.next(this.documents.slice());
         });
   }
 // delete the document- works-> updated according to assignment 9 instructions
@@ -145,7 +145,7 @@ export class DocumentsService implements OnDestroy, OnInit{
           if(json.title == 'Document deleted') {
             this.documents.splice(pos, 1);
 
-            this.documentChangedEvent.next(this.documents.slice());
+            this.documentListChangedEvent.next(this.documents.slice());
           }
         });
   }
